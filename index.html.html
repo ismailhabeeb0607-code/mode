@@ -1,0 +1,245 @@
+DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Surprise ❤️</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #ff758c, #a18cd1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            color: white;
+            text-align: center;
+        }
+
+        .card {
+            width: 90%;
+            max-width: 420px;
+            padding: 35px 22px;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 10px 40px rgba(80, 0, 50, 0.2);
+            z-index: 2;
+        }
+
+        h1 {
+            font-size: 30px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            line-height: 1.7;
+            margin: 15px 0;
+        }
+
+        input {
+            width: 85%;
+            padding: 13px;
+            margin: 12px 0;
+            border: none;
+            border-radius: 25px;
+            text-align: center;
+            font-size: 18px;
+            outline: none;
+        }
+
+        button {
+            background: #ff3864;
+            color: white;
+            border: none;
+            padding: 13px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.07);
+            background: #ff1744;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .cake {
+            font-size: 85px;
+            animation: bounce 1s infinite alternate;
+        }
+
+        .heart {
+            position: fixed;
+            bottom: -30px;
+            animation: floatUp 6s linear forwards;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes floatUp {
+            from {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateY(-110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes bounce {
+            from {
+                transform: translateY(0);
+            }
+
+            to {
+                transform: translateY(-12px);
+            }
+        }
+
+        #message {
+            color: #fff4a3;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- PIN PAGE -->
+    <div class="card" id="login">
+        <h1>💌 A Little Surprise</h1>
+        <p>Someone special has a birthday surprise for you! 💖</p>
+        <p>Enter your secret PIN to open it 🔐</p>
+
+        <input type="password" id="3106" placeholder="Enter your PIN" inputmode="numeric" maxlength="10">
+
+        <br>
+        <button onclick="unlock()">Unlock My Surprise ❤️</button>
+        <p id="error"></p>
+    </div>
+
+    <!-- BIRTHDAY PAGE -->
+    <div class="card hidden" id="birthday">
+        <h1>🎉 Happy Birthday! 🎉</h1>
+
+        <div class="cake">🎂</div>
+
+        <h2>To My Special Person ❤️</h2>
+
+        <p>
+            You make the world brighter just by being in it.
+            May your birthday be filled with love, laughter,
+            happiness, and beautiful memories.
+        </p>
+
+        <p id="message">
+            You are truly special to me! 💖
+        </p>
+
+        <button onclick="celebrate()">
+            Click for More Love 💕
+        </button>
+
+        <p id="surprise" class="hidden">
+            🌹 Sending you a thousand hugs and a million smiles!
+            Keep shining and stay amazing. Love you! 💗
+        </p>
+    </div>
+
+    <script>
+
+        // CHANGE YOUR PERSONAL PIN HERE
+        const personalPIN = "1234";
+
+        function unlock() {
+            const enteredPIN = document.getElementById("pin").value;
+
+            if (enteredPIN === personalPIN) {
+                document.getElementById("login").classList.add("hidden");
+                document.getElementById("birthday").classList.remove("hidden");
+                startHearts();
+                confetti();
+            } else {
+                document.getElementById("error").textContent =
+                    "Wrong PIN! Try again ❤️";
+            }
+        }
+
+        function startHearts() {
+            setInterval(() => {
+                const heart = document.createElement("div");
+                heart.className = "heart";
+                heart.textContent = ["❤️", "💖", "💕", "💗", "💘"][
+                    Math.floor(Math.random() * 5)
+                ];
+
+                heart.style.left = Math.random() * 100 + "vw";
+                heart.style.fontSize = (18 + Math.random() * 25) + "px";
+                document.body.appendChild(heart);
+
+                setTimeout(() => heart.remove(), 6000);
+            }, 350);
+        }
+
+        function celebrate() {
+            document.getElementById("surprise").classList.remove("hidden");
+            confetti();
+        }
+
+        function confetti() {
+            for (let i = 0; i < 70; i++) {
+                const piece = document.createElement("div");
+                piece.textContent = ["🎊", "✨", "💖", "🎉"][
+                    Math.floor(Math.random() * 4)
+                ];
+
+                piece.style.position = "fixed";
+                piece.style.left = Math.random() * 100 + "vw";
+                piece.style.top = "-30px";
+                piece.style.fontSize = "22px";
+                piece.style.zIndex = "5";
+                piece.style.pointerEvents = "none";
+
+                document.body.appendChild(piece);
+
+                const duration = 2000 + Math.random() * 2500;
+                piece.animate([
+                    {transform: "translateY(0) rotate(0deg)", opacity: 1},
+                    {transform: `translateY(${innerHeight + 50}px) rotate(720deg)`, opacity: 0}
+                ], {
+                    duration: duration,
+                    easing: "linear"
+                });
+
+                setTimeout(() => piece.remove(), duration);
+            }
+        }
+
+        document.getElementById("pin").addEventListener("keydown", function (event) {
+            if (event.key === "Enter") unlock();
+        });
+
+    </script>
+
+</body>
+
+</html>
+```
